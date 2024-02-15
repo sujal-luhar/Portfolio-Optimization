@@ -3,14 +3,20 @@ from src.logger import logging
 from src.exception import CustomException
 import streamlit as st
 from datetime import datetime
-from src.data.make_dataset import list_symboles_in_directory
-from src.data.make_dataset import create_portfolio_dataframe
-from src.data.make_dataset import summary_stats
-from src.data.make_dataset import plot_ef
-from src.data.make_dataset import gmv
-from src.data.make_dataset import msr
-from src.data.make_dataset import run_cppi
-from src.data.make_dataset import show_cppi
+
+from src.data.stockdata import list_symboles_in_directory
+from src.data.stockdata import create_portfolio_dataframe
+
+from src.data.summary_stats import summary_stats
+
+from src.data.portfolio import plot_ef
+from src.data.portfolio import gmv
+from src.data.portfolio import msr
+
+from src.data.cppi import run_cppi
+
+from src.data.montecarlo import show_cppi
+
 import pandas as pd
 import numpy as np  
 import matplotlib.pyplot as plt
@@ -37,6 +43,14 @@ returns = portfolio_df.pct_change().dropna()
 
 st.write("#### Company Details")
 st.dataframe(summary_stats(returns))
+
+
+
+
+############################################################################################
+
+
+
 
 st.write("#### Efficient Frontire")
 checkbox_elements = ["CML","GMV","Equally Weighted"]
@@ -67,8 +81,6 @@ if st.session_state.previous_show_cml != show_cml or st.session_state.previous_s
 
     fig = plot_ef(50, er, cov, style='.-', legend=False, show_cml=st.session_state.previous_show_cml, show_ew=st.session_state.previous_show_ew, show_gmv=st.session_state.previous_show_gmv, riskfree_rate=0.07)
     st.pyplot(fig)  
-# fig = plot_ef(50, er, cov, style='.-', legend=False, show_cml=show_cml, show_ew=show_ew, show_gmv=show_gmv, riskfree_rate=0.07)
-# st.pyplot(fig)
     
 st.write("#### Weight of Companies in Portfolio")
 company_names = list(portfolio_df.columns)
@@ -101,7 +113,7 @@ col3.write("**Equally Weighted Diversification**")
 col3.dataframe(weights_df_eq)
 
 st.write("#### GMV Portfolio Performance")
-Optimized_portfolio = pd.Series(np.dot(portfolio_df.dropna().dropna(), weights_gmv), index=portfolio_df.index, name="Portfolio Return")
+Optimized_portfolio = pd.Series(np.dot(portfolio_df.dropna(), weights_gmv), index=portfolio_df.index, name="Portfolio Return")
 Opt_rets = Optimized_portfolio.pct_change().dropna()
 risky_rets = 100*(1+Opt_rets).cumprod()
 risky_rets.index.name = "Date"
@@ -109,6 +121,14 @@ st.line_chart(risky_rets)
 
 st.write("#### GMV Portfolio Details")
 st.dataframe(summary_stats(Opt_rets.to_frame()))
+
+
+
+
+############################################################################################
+
+
+
 
 st.write("#### Dynamic Allocation in Safe Assets and Risky Assets with CPPI")
 cppi = run_cppi(Opt_rets, drawdown=0.20)
@@ -122,10 +142,18 @@ Risky_Allocation.columns = ["Risk Budget", "Risky Allocation"]
 st.line_chart(Risky_Allocation[["Risk Budget", "Risky Allocation"]])
 
 
+
+
+############################################################################################
+
+
+
+
 st.write("### Interactive Testing of CPPI strategy with Monte-Carlo Simulation")
 st.write("Use CPPI parameters in sidebar to test the strategy with different scenarios")
 st.set_option('deprecation.showPyplotGlobalUse', False)
-# Streamlit UI components
+
+# Streamlit Sidebar UI components
 st.sidebar.title('CPPI Parameters')
 n_scenarios = st.sidebar.slider('Number of Scenarios', min_value=1, max_value=1000, step=5, value=50)
 mu = st.sidebar.slider('Mean Return', min_value=0.0, max_value=1.0, step=0.01, value=0.07)
@@ -138,15 +166,3 @@ y_max = st.sidebar.number_input('Max of Y Axis', min_value=100, step=1, value=No
 # Display the interactive plot
 fig = show_cppi(n_scenarios, mu, sigma, m, floor, riskfree_rate, y_max)
 st.pyplot(fig)
-
-
-# if __name__ == "__main__":
-#     logging.info("Hello World")
-#     print("Hello World")
-
-#     try:
-#         a = 1/0
-#     except Exception as e:
-#         logging.info(CustomException(e,sys))
-#         print(CustomException(e,sys))
-#         raise CustomException(e,sys)
