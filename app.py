@@ -4,7 +4,7 @@ from src.exception import CustomException
 import streamlit as st
 from datetime import datetime
 
-from src.data.stockdata import list_symboles_in_directory
+from src.data.symbols import symbols
 from src.data.stockdata import create_portfolio_dataframe
 
 from src.data.summary_stats import summary_stats
@@ -24,7 +24,7 @@ import matplotlib.pyplot as plt
 
 st.subheader("Choose Company by Symbol")
 ticker = st.multiselect(
-    "Choose Company by Symbol", list_symboles_in_directory(), ['aapl', 'amzn', 'googl', 'wmt', 'xyl'], label_visibility="hidden"
+    "Choose Company by Symbol", symbols(), ['aapl', 'amzn', 'googl', 'wmt', 'xyl'], label_visibility="hidden"
     )
 if not ticker:
     st.error("Please select at least one stock.")
