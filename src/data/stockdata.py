@@ -15,7 +15,7 @@ def list_symboles_in_directory():
     Returns:
     - files (list): List of filenames in the directory
     """
-    directory = r'.\.\data\raw\Stocks'
+    directory = os.path.join('.', 'data', 'raw', 'Stocks')
     files = []
     symbols = []
 
