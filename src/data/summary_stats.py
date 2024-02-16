@@ -5,9 +5,7 @@ from src.logger import logging
 def annualize_rets(r, periods_per_year):
     """
     Annualizes a set of returns
-    We should infer the periods per year
-    but that is currently left as an exercise
-    to the reader :-)
+    the periods per year infered from the index
     """
     compounded_growth = (1+r).prod()
     n_periods = r.shape[0]
@@ -16,9 +14,7 @@ def annualize_rets(r, periods_per_year):
 def annualize_vol(r, periods_per_year):
     """
     Annualizes the vol of a set of returns
-    We should infer the periods per year
-    but that is currently left as an exercise
-    to the reader :-)
+    the periods per year infered from the index
     """
     return r.std()*(periods_per_year**0.5)
 
@@ -129,6 +125,7 @@ def summary_stats(r, riskfree_rate=0.07):
     skew = r.aggregate(skewness)
     kurt = r.aggregate(kurtosis)
     cf_var5 = r.aggregate(var_gaussian, modified=True)
+    g_var5 = r.aggregate(var_gaussian, modified=False)
     hist_cvar5 = r.aggregate(cvar_historic)
 
     logging.info("Summary stats calculated successfully.")
@@ -137,8 +134,9 @@ def summary_stats(r, riskfree_rate=0.07):
         "Annualized Vol": ann_vol,
         "Skewness": skew,
         "Kurtosis": kurt,
-        "Cornish-Fisher VaR (5%)": cf_var5,
         "Historic CVaR (5%)": hist_cvar5,
+        "Gaussian VaR (5%)": g_var5,
+        "Cornish-Fisher VaR (5%)": cf_var5,
         "Sharpe Ratio": ann_sr,
         "Max Drawdown": dd
     })
