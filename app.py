@@ -1,10 +1,8 @@
 import sys
-import os
 from src.logger import logging
 from src.exception import CustomException
 import streamlit as st
 from datetime import datetime
-import webbrowser
 
 from src.data.symbols import symbols
 from src.data.stockdata import create_portfolio_dataframe
@@ -156,12 +154,6 @@ st.write("Use CPPI parameters in sidebar to test the strategy with different sce
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # Streamlit Sidebar UI components
-def open_docs():
-    url = os.path.join('docs', '_build', 'html', 'index.html')
-    webbrowser.open_new_tab(url)
-
-if st.sidebar.button('Docs'):
-    open_docs()
 st.sidebar.title('CPPI Parameters')
 n_scenarios = st.sidebar.slider('Number of Scenarios', min_value=1, max_value=1000, step=5, value=50)
 mu = st.sidebar.slider('Mean Return', min_value=0.0, max_value=1.0, step=0.01, value=0.07)
