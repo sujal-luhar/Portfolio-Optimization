@@ -5,7 +5,7 @@ from src.data.cppi import run_cppi
 from src.logger import logging
 
 
-def gbm(n_years = 3, n_scenarios=1000, mu=0.07, sigma=0.15, steps_per_year=252, s_0=100.0, prices=True):
+def gbm(n_years = 3, n_scenarios=1000, mu=0.07, sigma=0.15, steps_per_year=252, s_0=100.0):
     """
     Evolution of Geometric Brownian Motion trajectories, such as for Stock Prices through Monte Carlo
     :param n_years:  The number of years to generate data for
@@ -16,15 +16,13 @@ def gbm(n_years = 3, n_scenarios=1000, mu=0.07, sigma=0.15, steps_per_year=252, 
     :param s_0: initial value
     :return: a numpy array of n_paths columns and n_years*steps_per_year rows
     """
+    # mu * dt + sigma * sqrt(dt) * xi (returns are linearly increasing, but in code they are compounded)
     # Derive per-step Model Parameters from User Specifications
     dt = 1/steps_per_year
     n_steps = int(n_years*steps_per_year) + 1
-    # the standard way ...
-    # rets_plus_1 = np.random.normal(loc=mu*dt+1, scale=sigma*np.sqrt(dt), size=(n_steps, n_scenarios))
-    # without discretization error ...
     rets_plus_1 = np.random.normal(loc=(1+mu)**dt, scale=(sigma*np.sqrt(dt)), size=(n_steps, n_scenarios))
     rets_plus_1[0] = 1
-    ret_val = s_0*pd.DataFrame(rets_plus_1).cumprod() if prices else rets_plus_1-1
+    ret_val = rets_plus_1-1
 
     logging.info("GBM Scenarios Calculeted Successfully.")
     return ret_val
@@ -34,7 +32,7 @@ def show_cppi(n_scenarios, mu, sigma, m, floor, riskfree_rate, y_max):
     Plot the results of a Monte Carlo Simulation of CPPI
     """
     start = 100
-    sim_rets = gbm(n_scenarios=n_scenarios, mu=mu, sigma=sigma, prices=False, steps_per_year=252)
+    sim_rets = gbm(n_scenarios=n_scenarios, mu=mu, sigma=sigma, steps_per_year=252)
     risky_r = pd.DataFrame(sim_rets)
     # run the "back"-test
     btr = run_cppi(risky_r=risky_r,riskfree_rate=riskfree_rate,m=m, start=start, floor=floor)
@@ -46,7 +44,7 @@ def show_cppi(n_scenarios, mu, sigma, m, floor, riskfree_rate, y_max):
     
     tw_mean = terminal_wealth.mean()
     tw_median = terminal_wealth.median()
-    failure_mask = np.less(terminal_wealth, start*floor)
+    failure_mask = np.less(terminal_wealth, start*floor) # boolean array
     n_failures = failure_mask.sum()
     p_fail = n_failures/n_scenarios
 

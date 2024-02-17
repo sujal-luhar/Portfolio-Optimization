@@ -1,6 +1,3 @@
-import sys
-from src.logger import logging
-from src.exception import CustomException
 import streamlit as st
 from datetime import datetime
 
@@ -18,8 +15,7 @@ from src.data.cppi import run_cppi
 from src.data.montecarlo import show_cppi
 
 import pandas as pd
-import numpy as np  
-import matplotlib.pyplot as plt
+import numpy as np 
 
 
 st.subheader("Choose Company by Symbol")
