@@ -101,7 +101,7 @@ def plot_ef(n_points, er, cov, style='.-', legend=False, show_cml=False, riskfre
         "Volatility": vols
     })
     fig, ax = plt.subplots()
-    ax.plot(ef["Volatility"], ef["Returns"], style, label="Returns", marker='o', color='blue')  # Use the 'style' variable directly
+    ax.plot(ef["Volatility"], ef["Returns"], style, label="Returns", linestyle='-', marker='o', color='blue')  # Use the 'style' variable directly
     ax.set_xlabel('Volatility')
     ax.set_ylabel('Returns')
     # ax = ef.plot.line(x="Volatility", y="Returns", style=style, legend=legend)
