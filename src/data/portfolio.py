@@ -36,10 +36,10 @@ def minimize_vol(target_return, er, cov):
                         'fun': lambda weights, er: target_return - portfolio_return(weights,er)
     }
     weights = minimize(portfolio_vol, init_guess,
-                       args=(cov,), method='SLSQP',
+                       args=(cov,), method='SLSQP', #Sequential Least Squares Programming
                        options={'disp': False},
                        constraints=(weights_sum_to_1,return_is_target),
-                       bounds=bounds)
+                       bounds=bounds)  
     return weights.x
 
 def msr(riskfree_rate, er, cov):
