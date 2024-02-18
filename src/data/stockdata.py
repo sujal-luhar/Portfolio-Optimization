@@ -4,32 +4,6 @@ import sys
 from src.logger import logging
 from src.exception import CustomException
 
-
-# def list_symboles_in_directory():
-#     """
-#     List filenames available in the specified directory.
-    
-#     Args:
-#     - directory (str): Path to the directory
-    
-#     Returns:
-#     - files (list): List of filenames in the directory
-#     """
-#     directory = os.path.join('.', 'data', 'raw', 'Stocks')
-#     files = []
-#     symbols = []
-
-#     for filename in os.listdir(directory):
-#         if os.path.isfile(os.path.join(directory, filename)):
-#             files.append(filename)
-
-#     for i in files:
-#         i = i.split('.')[0]
-#         symbols.append(i)
-
-#     logging.info(f"Making the list of stock symbols from names of files in data directory completed")
-#     return symbols
-
 import yfinance as yf
 # Define function to read data for a single stock from Yahoo Finance
 def read_stock_data(stock_symbol, start_date, end_date):

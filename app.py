@@ -17,7 +17,8 @@ from src.data.montecarlo import show_cppi
 import pandas as pd
 import numpy as np 
 
-
+st.header("Portfolio Optimization and CPPI Strategy")
+st.write("Sorry for the time it took to load the page. It's because matplotlib does not plot huge data very quickly. Please be patient.")
 st.subheader("Choose Company by Symbol")
 ticker = st.multiselect(
     "Choose Company by Symbol", symbols(), ['aapl', 'amzn', 'googl', 'wmt', 'xyl'], label_visibility="hidden"

@@ -83,6 +83,7 @@ def gmv(cov):
 def optimal_weights(n_points, er, cov):
     """
     Returns a list of weights that represent a grid of n_points on the efficient frontier
+    returns weights to build the nose of efficient frontier
     """
     target_rs = np.linspace(er.min(), er.max(), n_points)
     weights = [minimize_vol(target_return, er, cov) for target_return in target_rs]
