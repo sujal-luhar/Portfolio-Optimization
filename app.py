@@ -164,7 +164,7 @@ fig = show_cppi(n_scenarios, mu, sigma, m, floor, riskfree_rate, y_max)
 st.pyplot(fig)
 
 
-st.write()
-st.write()
-st.write()
+st.write("\n")
+st.write("\n")
+st.write("\n")
 st.write("Sorry for the time it took to load the page. It's because matplotlib does not plot huge data very quickly. Please be patient.")
