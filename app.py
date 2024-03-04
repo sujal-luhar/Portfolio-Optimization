@@ -18,7 +18,6 @@ import pandas as pd
 import numpy as np 
 
 st.header("Portfolio Optimization and CPPI Strategy", divider="rainbow")
-st.write("Sorry for the time it took to load the page. It's because matplotlib does not plot huge data very quickly. Please be patient.")
 st.subheader("Choose Company by Symbol")
 ticker = st.multiselect(
     "Choose Company by Symbol", symbols(), ['aapl', 'amzn', 'googl', 'wmt', 'xyl'], label_visibility="hidden"
@@ -163,3 +162,9 @@ y_max = st.sidebar.number_input('Max of Y Axis', min_value=100, step=1, value=No
 # Display the interactive plot
 fig = show_cppi(n_scenarios, mu, sigma, m, floor, riskfree_rate, y_max)
 st.pyplot(fig)
+
+
+st.write()
+st.write()
+st.write()
+st.write("Sorry for the time it took to load the page. It's because matplotlib does not plot huge data very quickly. Please be patient.")
