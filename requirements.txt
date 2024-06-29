@@ -110,7 +110,7 @@ SimpleGUICS2Pygame==2.1.0
 six==1.16.0
 smmap==5.0.1
 soupsieve==2.4
-sqlparse==0.4.4
+sqlparse==0.5.0
 streamlit==1.31.0
 tempdir==0.7.1
 tenacity==8.2.3
